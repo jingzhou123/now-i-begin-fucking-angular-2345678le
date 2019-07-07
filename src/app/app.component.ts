@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  products = [
-    {
-      id: 1
-    }
-  ];
+  constructor(private http: HttpClient) {}
+  products = [];
   ngOnInit(): void {
-    // throw new Error("Method not implemented.");
+    this.http.get<any>('http://localhost:3000/products').subscribe(resp => {
+      console.log('resp:', resp);
+      this.products = resp;
+    });
   }
 }
